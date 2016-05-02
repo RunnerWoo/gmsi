@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Copyright (C) ${date?date?string("yyyy")} ${project.organization!user}.
+<#if licenseLast??>
+${licenseLast}
+</#if>
