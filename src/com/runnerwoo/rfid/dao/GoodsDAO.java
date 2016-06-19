@@ -37,22 +37,19 @@ import com.runnerwoo.dao.MyBaseDao;
  */
 public class GoodsDAO implements MyBaseDao<Goods>{
     private SqlJetDb db;
-    private RfidSQLiteHelper dbHelper;
-    private String[] allColums = {
-        RfidSQLiteHelper.GOODS_COLUMN_ID,
-        RfidSQLiteHelper.GOODS_COLUMN_NAME,
-        RfidSQLiteHelper.GOODS_COLUMN_TAG,
-        RfidSQLiteHelper.GOODS_COLUMN_IN_TIME,
-        RfidSQLiteHelper.GOODS_COLUMN_OUT_TIME
-    };
+    private final RfidSQLiteHelper dbHelper;
     private final static long LIFT_TIME = 1800000;
 
     public GoodsDAO() {
         dbHelper = new RfidSQLiteHelper();
     }
     
-    public void open() throws SqlJetException {
-        db = dbHelper.getDatabase();
+    public void open() {
+        try {
+            db = dbHelper.getDatabase();
+        } catch (SqlJetException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void close() {
@@ -62,6 +59,7 @@ public class GoodsDAO implements MyBaseDao<Goods>{
     @Override
     public void create(Goods goods) {
         Map<String, Object> values = new HashMap<>();
+//        System.out.println(GoodsDAO.class.getName() + goods);
         values.put(RfidSQLiteHelper.GOODS_COLUMN_NAME, goods.getName());
         values.put(RfidSQLiteHelper.GOODS_COLUMN_TAG, goods.getTag());
         values.put(RfidSQLiteHelper.GOODS_COLUMN_IN_TIME, goods.getInTime());
@@ -81,6 +79,7 @@ public class GoodsDAO implements MyBaseDao<Goods>{
         Map<String, Object> values = new HashMap<>();
         values.put(RfidSQLiteHelper.GOODS_COLUMN_NAME, goods.getName());
         values.put(RfidSQLiteHelper.GOODS_COLUMN_TAG, goods.getTag());
+        values.put(RfidSQLiteHelper.GOODS_COLUMN_POS, goods.getPos());
         values.put(RfidSQLiteHelper.GOODS_COLUMN_IN_TIME, goods.getInTime());
         values.put(RfidSQLiteHelper.GOODS_COLUMN_OUT_TIME, (goods.getOutTime()));
         try {
@@ -170,14 +169,35 @@ public class GoodsDAO implements MyBaseDao<Goods>{
         return goods;
     }
     
+    public void updatePosByTag(String pos, String tag) {
+        Map<String, Object> values = new HashMap<>();
+        values.put(RfidSQLiteHelper.GOODS_COLUMN_TAG, tag);
+        values.put(RfidSQLiteHelper.GOODS_COLUMN_POS, pos);
+        try {
+            db.beginTransaction(SqlJetTransactionMode.WRITE);
+            ISqlJetTable table = db.getTable(RfidSQLiteHelper.TABLE_GOODS);
+            ISqlJetCursor updateCursor = table.lookup(RfidSQLiteHelper.INDEX_TAG, tag);
+            if (!updateCursor.eof()){
+                do {
+                    updateCursor.updateByFieldNames(values);
+                } while (updateCursor.next());
+            }
+            updateCursor.close();
+            db.commit();
+        } catch (SqlJetException ex) {
+            Logger.getLogger(GoodsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private Goods encapsulate(ISqlJetCursor cursor) throws SqlJetException {
         Goods goods = new Goods();
         if (!cursor.eof()) {
             goods.setId(cursor.getInteger(0));
             goods.setName(cursor.getString(1));
             goods.setTag(cursor.getString(2));
-            goods.setInTime(cursor.getInteger(3));
-            goods.setOutTime(cursor.getInteger(4));
+            goods.setPos(cursor.getString(3));
+            goods.setInTime(cursor.getInteger(4));
+            goods.setOutTime(cursor.getInteger(5));
         } else {
             return null;
         }

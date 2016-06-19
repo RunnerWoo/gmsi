@@ -17,7 +17,6 @@
 package com.runnerwoo.rfid.gui;
 
 import static com.runnerwoo.rfid.locale.I18N.I18N;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
 /**

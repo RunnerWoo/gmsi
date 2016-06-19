@@ -45,7 +45,7 @@ public class GoodsIntoForm extends JForm {
 
     private void initComponents() {
         btnReset = new JButton(I18N.getString("btn_reset"));
-
+        
         btnReset.addActionListener((ActionEvent e) -> {
             btnResetActionPerformed(e);
         });
@@ -66,9 +66,20 @@ public class GoodsIntoForm extends JForm {
     }
 
     private void btnResetActionPerformed(ActionEvent e) {
+        reset();
+    }
+    
+    public void reset() {
         for (JTextField txt : fields) {
             txt.setText("");
         }
     }
     
+    public JTextField getTagField() {
+        return fields.get(1);
+    }
+ 
+    public void setTagField(String s) {
+        fields.get(1).setText(s);
+    }
 }

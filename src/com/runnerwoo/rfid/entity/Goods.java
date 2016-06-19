@@ -16,6 +16,9 @@
  */
 package com.runnerwoo.rfid.entity;
 
+import static com.runnerwoo.rfid.gui.MainFrame.DATE_FORMAT;
+import java.util.Date;
+
 /**
  *
  * @author Wu Yan Chang(吴彦昌) <wuyanchang@hotmail.com>
@@ -25,16 +28,17 @@ public class Goods {
     private long id;
     private String name;
     private String tag;
+    private String pos;
     private long inTime;
     private long outTime;
 
     public Goods() {
     }
     
-    public Goods(long id, String name, String tag, long inTime, long outTime) {
-        this.id = id;
+    public Goods(String name, String tag, String pos, long inTime, long outTime) {
         this.name = name;
         this.tag = tag;
+        this.pos = pos;
         this.inTime = inTime;
         this.outTime = outTime;
     }
@@ -55,6 +59,14 @@ public class Goods {
         this.name = name;
     }
 
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+    
     public String getTag() {
         return tag;
     }
@@ -81,6 +93,11 @@ public class Goods {
 
     @Override
     public String toString() {
-        return "Goods{" + "id=" + id + ", name=" + name + ", tag=" + tag + ", inTime=" + inTime + ", outTime=" + outTime + '}';
+        return "Goods{" + "id=" + id
+                + ", name=" + name
+                + ", tag=" + tag 
+                + ", pos=" + pos
+                + ", inTime=" + DATE_FORMAT.format(inTime)
+                + ", outTime=" + DATE_FORMAT.format(outTime) + '}';
     }
 }

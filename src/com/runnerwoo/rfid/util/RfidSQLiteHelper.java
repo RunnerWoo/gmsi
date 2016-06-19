@@ -31,6 +31,7 @@ public class RfidSQLiteHelper extends SQLiteOpenHelper {
     public static final String GOODS_COLUMN_ID = "id";
     public static final String GOODS_COLUMN_NAME = "name";
     public static final String GOODS_COLUMN_TAG = "tag";
+    public static final String GOODS_COLUMN_POS = "pos";
     public static final String GOODS_COLUMN_IN_TIME = "in_time";
     public static final String GOODS_COLUMN_OUT_TIME = "out_time";
     public static final String INDEX_TAG = "index_tag";
@@ -47,6 +48,7 @@ public class RfidSQLiteHelper extends SQLiteOpenHelper {
                 + GOODS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + GOODS_COLUMN_NAME + " TEXT NOT NULL,"
                 + GOODS_COLUMN_TAG + " TEXT,"
+                + GOODS_COLUMN_POS + " TEXT,"
                 + GOODS_COLUMN_IN_TIME + " INTEGER NOT NULL,"
                 + GOODS_COLUMN_OUT_TIME + " INTEGER NOT NULL)";
         String createIndexTagQuery = "CREATE INDEX " + INDEX_TAG + " ON "

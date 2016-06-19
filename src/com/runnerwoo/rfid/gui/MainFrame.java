@@ -22,11 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.tmatesoft.sqljet.core.SqlJetException;
 
 /**
  *
@@ -41,21 +38,21 @@ public class MainFrame extends JFrame {
     public static final String USERNAME = "admin";
     public static final String PASSWORD = "admin";
     
-    private DeviceControllerPanel dcPanel;
+//    private DeviceControllerPanel dcPanel;
     private StatusBarPanel sbPanel;
-    private GoodsListPanel glPanel;
+    private GoodsListWithSortFilterPanel glPanel;
     private GoodsControllerPanel gcPanel;
     
-    private GoodsDAO goodsDao;
+    private GoodsDAO goodsDao;;
     //</editor-fold>
 
     public MainFrame() {
-        if (this.loginSucceed()) {
+        //if (this.loginSucceed()) {
             initComponents();
             repaint();
-        } else {
-            System.exit(0);
-        }
+        //} else {
+        //    System.exit(0);
+        //}
     }
     
     private boolean loginSucceed() {
@@ -101,19 +98,14 @@ public class MainFrame extends JFrame {
 
         //<editor-fold desc="Initialize variables">
         goodsDao = new GoodsDAO();
+        goodsDao.open();
         
-        try {
-            goodsDao.open();
-        } catch (SqlJetException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        dcPanel = new DeviceControllerPanel();
+//        dcPanel = new DeviceControllerPanel();
         sbPanel = new StatusBarPanel();
-        glPanel = new GoodsListPanel(goodsDao);
+        glPanel = new GoodsListWithSortFilterPanel(goodsDao);
         gcPanel = new GoodsControllerPanel(goodsDao, glPanel);
         
-        add(dcPanel, BorderLayout.NORTH);
+//        add(dcPanel, BorderLayout.NORTH);
         add(sbPanel, BorderLayout.SOUTH);
         add(glPanel, BorderLayout.CENTER);
         add(gcPanel, BorderLayout.EAST);

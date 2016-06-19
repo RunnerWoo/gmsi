@@ -34,11 +34,13 @@ public class GoodsTableModel extends AbstractTableModel {
         I18N.getString("db_id"),
         I18N.getString("db_name"),
         I18N.getString("db_tag"),
+        I18N.getString("db_pos"),
         I18N.getString("db_in_time"),
         I18N.getString("db_out_time")
     };
     private Class[] columnClass = {
         Integer.class,
+        String.class,
         String.class,
         String.class,
         Long.class,
@@ -91,8 +93,10 @@ public class GoodsTableModel extends AbstractTableModel {
             case 2:
                 return g.getTag();
             case 3:
-                return DATE_FORMAT.format(new Date(g.getInTime()));
+                return g.getPos();
             case 4:
+                return DATE_FORMAT.format(new Date(g.getInTime()));
+            case 5:
                 return DATE_FORMAT.format(new Date(g.getOutTime()));
         }
         return new String();
