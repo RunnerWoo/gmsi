@@ -8,8 +8,8 @@
 -----------
 - [x] 登录界面搭建
 - [x] 基于SQLite数据库操作的简单实现
-- [ ] RFID的串口编程简单接口
-- [ ] 界面与RFID串口的连接实现
+- [x] RFID的串口编程简单接口
+- [x] 界面与RFID串口的连接实现
 
 基于Debian系统下的依赖库
 ------------
@@ -23,10 +23,8 @@
     `sudo apt-get install librxtx-java`
 - [x] [Java Simple Serial Connector](https://github.com/scream3r/java-simple-serial-connector)
 
-> All apt libraries is under `/user/share/java/`.    
-> (所有apt安装的包都在目录`/usr/share/java/`下)。    
-> Linked library lists:    
-> (链接的库有下列几项)
+> 所有apt安装的包都在目录`/usr/share/java/`下    
+> 链接的库有下列几项：    
 > - sqljet.jar    
 > - antlr3-runtime.jar    
 > - jssc.jar    
