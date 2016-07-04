@@ -63,6 +63,7 @@ public class GoodsForm extends JForm {
     public Goods getGoods() {
         g.setName(fields.get(0).getText().trim());
         g.setTag(fields.get(1).getText().trim());
+        g.setPos(fields.get(2).getText().trim());
         return g;
     }
 }

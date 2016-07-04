@@ -149,7 +149,7 @@ public class GoodsListWithSortFilterPanel extends JPanel implements GoodsList {
         int row = table.getSelectedRow();
         if (row > -1 && e.getValueIsAdjusting()) {
             Goods g = model.getSelectedGoods(row);
-            System.out.println(g.toString());
+//            System.out.println(g.toString());
 
             String title = I18N.getString("form_out") + g.getId();
             GoodsForm form = new GoodsForm(g);
@@ -247,10 +247,12 @@ public class GoodsListWithSortFilterPanel extends JPanel implements GoodsList {
         @Override
         public void serialEvent(SerialPortEvent event) {
             if (event.isRXCHAR()) {
+//                System.out.println(event.getEventValue());
                 if (event.getEventValue() > 0) {
                     try {
-                        byte buffer[] = serialport.readBytes();
-                        String getString = new String(buffer);
+//                        byte buffer[] = serialport.readBytes();
+                        String getString = serialport.readString(44);
+                        System.out.println(getString);
                         parseDataFromSerialPort(getString);
                     } catch (SerialPortException ex) {
                         Logger.getLogger(SerialCommUtil.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,14 +286,18 @@ public class GoodsListWithSortFilterPanel extends JPanel implements GoodsList {
         }
 
         private Map<String, String> splitToMap(String in) {
-            String[] tokens = in.split("#");
             Map<String, String> map = new HashMap();
+            if (!in.isEmpty()) {
+            String[] tokens = in.split("#");
             for (String token : tokens) {
                 if (token.isEmpty()) {
                     continue;
                 }
                 String[] keyValue = token.split("@");
+                if (keyValue.length == 2) {
                 map.put(keyValue[0], keyValue[1]);
+                }
+            }
             }
             return map;
         }
